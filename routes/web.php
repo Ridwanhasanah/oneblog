@@ -19,12 +19,12 @@ Auth::routes();
 /*======= BLOG =========*/
 Route::get('/', 'PostController@index')->name('home');
 /*All Post*/
-Route::get('/blog/allposts', 'PostController@allposts')->name('blog.allposts');
+Route::get('/blog/allposts', ['middleware'=>'checkLogin' , 'uses'=>'PostController@allposts'])->name('blog.allposts');
 
-Route::get('/blog/create', 'PostController@create')->name('blog.create');
+Route::get('/blog/create',['middleware'=>'checkLogin' , 'uses'=> 'PostController@create'])->name('blog.create');
 
 /*              link         Controller     fungsi         alias name*/
-Route::post('/blog/create', 'PostController@store')->name('blog.store');
+Route::post('/blog/create',['middleware'=>'checkLogin' ,'PostController@store'])->name('blog.store');
 /*Delete*/
 Route::delete('/blog/{post}/delete', 'PostController@destroy')->name('blog.destroy');
 
@@ -37,3 +37,6 @@ Route::patch('/blog/{post}/update', 'PostController@update')->name('blog.update'
 
 /*==== Comment Post*/
 Route::post('blog/{post}/comment','CommentController@store')->name('blog.comment.store');
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('zzz');
